@@ -44,7 +44,6 @@ export function usePriceHistory(
   useEffect(() => {
     let cancelled = false
     const from = getStartDate(range)
-    setLoading(true)
     getSnapshots(from).then(data => {
       if (!cancelled) {
         setSnapshots(data)
