@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@keyframes flash-green {
+  0% { background-color: rgb(187 247 208); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flash-red {
+  0% { background-color: rgb(254 202 202); }
+  100% { background-color: transparent; }
+}
+
+.animate-flash-green {
+  animation: flash-green 2s ease-out;
+}
+
+.animate-flash-red {
+  animation: flash-red 2s ease-out;
+}
+
+@keyframes flash-green-dark {
+  0% { background-color: rgb(6 78 59); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flash-red-dark {
+  0% { background-color: rgb(127 29 29); }
+  100% { background-color: transparent; }
+}
+
+.dark .animate-flash-green {
+  animation: flash-green-dark 2s ease-out;
+}
+
+.dark .animate-flash-red {
+  animation: flash-red-dark 2s ease-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
