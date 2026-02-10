@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { MatrixData } from '../api/openfacet'
 import { getSnapshots } from '../lib/historyDb'
 import type { DailySnapshot } from '../lib/historyDb'
@@ -40,18 +40,19 @@ export function usePriceHistory(
 
   const matrixTs = matrix?.ts
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    const from = getStartDate(range)
-    const data = await getSnapshots(from)
-    setSnapshots(data)
-    setLoading(false)
-  }, [range])
-
   // Reload when range changes or when matrix.ts changes (new save triggers reload)
   useEffect(() => {
-    load()
-  }, [load, matrixTs])
+    let cancelled = false
+    const from = getStartDate(range)
+    setLoading(true)
+    getSnapshots(from).then(data => {
+      if (!cancelled) {
+        setSnapshots(data)
+        setLoading(false)
+      }
+    })
+    return () => { cancelled = true }
+  }, [range, matrixTs])
 
   // Current per-carat price from live OpenFacet matrix
   const currentPrice = matrix
